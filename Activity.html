@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase de Inglés: Conversación y Cuestionario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef3c7; /* Amarillo muy claro */
+        }
+        .container {
+            max-width: 800px;
+        }
+        .correct-answer {
+            background-color: #d1fae5;
+        }
+        .wrong-answer {
+            background-color: #fee2e2;
+        }
+    </style>
+</head>
+<body class="bg-yellow-50 flex items-center justify-center min-h-screen p-4">
+
+    <div class="container mx-auto space-y-8 p-6 bg-white rounded-xl shadow-2xl">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-800">Clase de Inglés Interactiva</h1>
+            <p class="mt-2 text-lg text-gray-600">Escucha la conversación y responde el cuestionario.</p>
+        </div>
+
+        <!-- Reproductor de Audio y Botones -->
+        <div class="flex flex-col items-center space-y-4">
+            <button id="playButton" class="px-8 py-4 bg-teal-500 text-white font-bold text-xl rounded-full shadow-lg hover:bg-teal-600 transition-colors transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-teal-400 focus:ring-opacity-50">
+                <i class="fas fa-comments mr-2"></i> Reproducir Conversación
+            </button>
+            <div id="loading" class="hidden flex items-center justify-center space-x-2 text-gray-600">
+                <i class="fas fa-spinner fa-spin text-xl"></i>
+                <span>Generando audio...</span>
+            </div>
+            <audio id="audioPlayer" controls class="w-full max-w-md hidden rounded-lg shadow-md"></audio>
+        </div>
+
+        <!-- Sección de Texto de la Conversación -->
+        <div class="bg-gray-50 p-6 rounded-xl shadow-inner mt-6">
+            <h2 class="text-2xl font-bold text-gray-700 mb-4">Texto de la Conversación</h2>
+            <div class="space-y-4 text-gray-800">
+                <p><strong>Beto:</strong> Hi Diani!</p>
+                <p><strong>Diani:</strong> Hi Beto! How are you?</p>
+                <p><strong>Beto:</strong> I'm great, thank you! I'm very busy with my wedding preparations. I'm getting married in December.</p>
+                <p><strong>Diani:</strong> Oh, that's wonderful! Congratulations! I hope you celebrate it with your family.</p>
+                <p><strong>Beto:</strong> Thank you, I will! What about you? What do you like to do in your free time?</p>
+                <p><strong>Diani:</strong> I love animals. I have a dog, her name is Yaki. I also love to travel and eat healthy food.</p>
+                <p><strong>Beto:</strong> That's cool! I like sports. I play soccer with my dad and I go to the gym.</p>
+                <p><strong>Diani:</strong> I also love sports! I do CrossFit every day at 4:30 AM. It's my favorite!</p>
+                <p><strong>Beto:</strong> Wow, 4:30 AM is very early! You are very disciplined. It's great to see you!</p>
+                <p><strong>Diani:</strong> You too! Good luck with the wedding!</p>
+            </div>
+        </div>
+
+        <!-- Sección del Cuestionario -->
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cuestionario</h2>
+            <form id="quizForm" class="space-y-6">
+
+                <!-- Pregunta 1 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">1. What does Diani do every day at 4:30 AM?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q1" value="a" class="form-radio text-blue-600">
+                            <span>She travels.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q1" value="b" class="form-radio text-blue-600">
+                            <span>She does CrossFit.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q1" value="c" class="form-radio text-blue-600">
+                            <span>She reads books.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">2. What sport does Beto like?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q2" value="a" class="form-radio text-blue-600">
+                            <span>Soccer.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q2" value="b" class="form-radio text-blue-600">
+                            <span>Tennis.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q2" value="c" class="form-radio text-blue-600">
+                            <span>Baseball.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">3. What is the name of Diani's dog?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q3" value="a" class="form-radio text-blue-600">
+                            <span>Yaki.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q3" value="b" class="form-radio text-blue-600">
+                            <span>Beto.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q3" value="c" class="form-radio text-blue-600">
+                            <span>Koko.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">4. When is Beto getting married?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q4" value="a" class="form-radio text-blue-600">
+                            <span>In November.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q4" value="b" class="form-radio text-blue-600">
+                            <span>In October.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q4" value="c" class="form-radio text-blue-600">
+                            <span>In December.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">5. What kind of food does Diani like?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q5" value="a" class="form-radio text-blue-600">
+                            <span>Healthy food.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q5" value="b" class="form-radio text-blue-600">
+                            <span>Fast food.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q5" value="c" class="form-radio text-blue-600">
+                            <span>Italian food.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 6 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">6. Who does Beto play soccer with?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q6" value="a" class="form-radio text-blue-600">
+                            <span>His brother.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q6" value="b" class="form-radio text-blue-600">
+                            <span>His dad.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q6" value="c" class="form-radio text-blue-600">
+                            <span>His friends.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 7 -->
+                <div class="p-4 bg-white rounded-lg shadow-md question-box">
+                    <p class="font-semibold text-gray-700">7. What are Beto's preparations for?</p>
+                    <div class="mt-2 space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q7" value="a" class="form-radio text-blue-600">
+                            <span>A trip.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q7" value="b" class="form-radio text-blue-600">
+                            <span>A party.</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-50">
+                            <input type="radio" name="q7" value="c" class="form-radio text-blue-600">
+                            <span>His wedding.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="text-center mt-6">
+                    <button type="button" id="submitBtn" class="px-8 py-4 bg-purple-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-purple-700 transition-colors transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50">
+                        Verificar Respuestas
+                    </button>
+                </div>
+            </form>
+            <div id="results" class="mt-6 text-center text-2xl font-bold"></div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'b', // She does CrossFit.
+            q2: 'a', // Soccer.
+            q3: 'a', // Yaki.
+            q4: 'c', // In December.
+            q5: 'a', // Healthy food.
+            q6: 'b', // His dad.
+            q7: 'c'  // His wedding.
+        };
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const form = document.getElementById('quizForm');
+            const questions = document.querySelectorAll('.question-box');
+            let score = 0;
+
+            questions.forEach((question, index) => {
+                const questionName = `q${index + 1}`;
+                const selectedAnswer = form.querySelector(`input[name="${questionName}"]:checked`);
+                
+                // Reset classes
+                const labels = question.querySelectorAll('label');
+                labels.forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === correctAnswers[questionName]) {
+                        score++;
+                        selectedAnswer.closest('label').classList.add('correct-answer');
+                    } else {
+                        selectedAnswer.closest('label').classList.add('wrong-answer');
+                        // Highlight the correct answer
+                        const correctAnswerLabel = form.querySelector(`input[name="${questionName}"][value="${correctAnswers[questionName]}"]`).closest('label');
+                        correctAnswerLabel.classList.add('correct-answer');
+                    }
+                }
+            });
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.textContent = `Tu puntaje es: ${score} de ${Object.keys(correctAnswers).length}`;
+        });
+
+        document.getElementById('playButton').addEventListener('click', async () => {
+            const button = document.getElementById('playButton');
+            const loading = document.getElementById('loading');
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            button.disabled = true;
+            loading.classList.remove('hidden');
+            audioPlayer.classList.add('hidden');
+
+            try {
+                // The API key is automatically provided in this environment.
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                const textPrompt = `Speaking at a slightly slower pace, please TTS the following conversation between Diani and Beto:
+Beto: Hi Diani!
+Diani: Hi Beto! How are you?
+Beto: I'm great, thank you! I'm very busy with my wedding preparations. I'm getting married in December.
+Diani: Oh, that's wonderful! Congratulations! I hope you celebrate it with your family.
+Beto: Thank you, I will! What about you? What do you like to do in your free time?
+Diani: I love animals. I have a dog, her name is Yaki. I also love to travel and eat healthy food.
+Beto: That's cool! I like sports. I play soccer with my dad and I go to the gym.
+Diani: I also love sports! I do CrossFit every day at 4:30 AM. It's my favorite!
+Beto: Wow, 4:30 AM is very early! You are very disciplined. It's great to see you!
+Diani: You too! Good luck with the wedding!`;
+
+                const payload = {
+                    contents: [{
+                        parts: [{ text: textPrompt }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            multiSpeakerVoiceConfig: {
+                                speakerVoiceConfigs: [
+                                    { speaker: "Diani", voiceConfig: { prebuiltVoiceConfig: { voiceName: "Leda" } } },
+                                    { speaker: "Beto", voiceConfig: { prebuiltVoiceConfig: { voiceName: "Algenib" } } }
+                                ]
+                            }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                const mimeType = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    if (!sampleRateMatch) {
+                        throw new Error('No se pudo encontrar la frecuencia de muestreo en el tipo MIME.');
+                    }
+                    const sampleRate = parseInt(sampleRateMatch[1], 10);
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    
+                    audioPlayer.src = URL.createObjectURL(wavBlob);
+                    audioPlayer.load();
+                    audioPlayer.classList.remove('hidden');
+                    audioPlayer.play();
+                } else {
+                    throw new Error('Datos de audio no válidos o tipo MIME incorrecto.');
+                }
+
+            } catch (error) {
+                console.error("Error al generar o reproducir el audio:", error);
+            } finally {
+                button.disabled = false;
+                loading.classList.add('hidden');
+            }
+        });
+
+        // Helper function to convert base64 to ArrayBuffer
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Helper function to convert PCM data to WAV Blob
+        function pcmToWav(pcm, sampleRate) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * bitsPerSample / 8;
+            const blockAlign = numChannels * bitsPerSample / 8;
+            const buffer = new ArrayBuffer(44 + pcm.length * 2);
+            const view = new DataView(buffer);
+
+            // RIFF chunk
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcm.length * 2, true);
+            writeString(view, 8, 'WAVE');
+
+            // fmt chunk
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); // PCM format
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitsPerSample, true);
+
+            // data chunk
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcm.length * 2, true);
+
+            // Write PCM data
+            for (let i = 0; i < pcm.length; i++) {
+                view.setInt16(44 + i * 2, pcm[i], true);
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+    </script>
+</body>
+</html>
